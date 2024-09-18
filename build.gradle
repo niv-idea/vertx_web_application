@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id('io.ebean') version '14.1.0'
+}
+
+group = 'com.niv'
+version = '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+def mainVerticleName = 'com.niv.MainVerticle'
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation("io.vertx:vertx-web:4.4.2")
+    implementation("io.vertx:vertx-core:4.4.2")
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    //implementation("io.netty:netty-resolver-dns-native-macos:4.1.95.Final:osx-aarch_64") // Add this line
+    implementation("com.mysql:mysql-connector-j:8.3.0")
+    implementation("io.ebean:ebean:14.1.0")
+    implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.9")
+    // compile 'io.ebean:ebean:14.1.0'
+
+    // query bean generation
+    annotationProcessor 'io.ebean:querybean-generator:14.1.0'
+    implementation("io.vertx:vertx-rx-java:3.8.1")
+}
+
+test {
+    useJUnitPlatform()
+}
+task run(type: JavaExec) {
+    main = 'io.vertx.core.Launcher' // Main class
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['run', mainVerticleName,
+            "-conf D:\\Movies\\project\\vertx_web_application\\src\\main\\resources\\config.json",
+            "--redeploy=src/**/*",
+            "--launcher-class=io.vertx.core.Launcher",
+            "--on-redeploy=./gradlew classes"]
+}
