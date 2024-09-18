@@ -1,0 +1,10 @@
+{
+  "port": 9999,
+  "sql": {
+    "port": 3306,
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "username": "root",
+    "url": "jdbc:mysql://localhost/mydb1",
+    "password": "Dipak@11"
+  }
+}
