@@ -19,16 +19,17 @@ dependencies {
     implementation("io.vertx:vertx-core:4.4.2")
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
-    //implementation("io.netty:netty-resolver-dns-native-macos:4.1.95.Final:osx-aarch_64") // Add this line
+    implementation("io.netty:netty-resolver-dns-native-macos:4.1.95.Final:osx-aarch_64") // Add this line
     implementation("com.mysql:mysql-connector-j:8.3.0")
     implementation("io.ebean:ebean:14.1.0")
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.9.9")
     // compile 'io.ebean:ebean:14.1.0'
+    //implementation "ch.qos.logback:logback-classic:1.2.3"
 
     // query bean generation
     annotationProcessor 'io.ebean:querybean-generator:14.1.0'
-    implementation("io.vertx:vertx-rx-java:3.8.1")
+    implementation("io.vertx:vertx-rx-java:4.4.2")
 }
 
 test {
@@ -41,5 +42,8 @@ task run(type: JavaExec) {
             "-conf D:\\Movies\\project\\vertx_web_application\\src\\main\\resources\\config.json",
             "--redeploy=src/**/*",
             "--launcher-class=io.vertx.core.Launcher",
-            "--on-redeploy=./gradlew classes"]
+            "--on-redeploy=./gradlew classes",
+            "--Xlint:deprecation"
+    ]
+
 }

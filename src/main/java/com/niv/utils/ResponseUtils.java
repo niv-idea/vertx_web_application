@@ -1,11 +1,14 @@
 package com.niv.utils;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.rxjava.ext.web.RoutingContext;
+
+;
 
 
 public enum ResponseUtils {
     INSTANCE;
+
     public static void writeJsonResponse(RoutingContext context, Object response) {
         context.response().putHeader("content-type", "application/json")
                 .end(

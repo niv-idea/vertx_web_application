@@ -1,10 +1,12 @@
 {
-  "port": 9999,
+  "port": 8080,
   "sql": {
     "port": 3306,
     "driver": "com.mysql.cj.jdbc.Driver",
     "username": "root",
-    "url": "jdbc:mysql://localhost/mydb1",
+    "url": "jdbc:mysql://localhost/vertx_web_application",
     "password": "Dipak@11"
   }
 }
+
+

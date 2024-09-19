@@ -20,6 +20,9 @@ public class SqlFinder<T,I> {
     public T findById(I id) {
         return database().find(tClass, id);
     }
+    public void deleteById(T entity){
+        database().delete(entity);
+    }
 
     public Query<T> query() {
         return database().find(tClass);

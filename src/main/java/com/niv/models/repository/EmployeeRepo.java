@@ -21,4 +21,5 @@ public enum EmployeeRepo {
     public ExpressionList<Employee> findAllEmployee() {
         return employeeFinder.query().where();
     }
+
 }

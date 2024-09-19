@@ -10,8 +10,8 @@ public class EmployeeResponse {
 
     private Integer employeeId;
     private String employeeName;
-    private String employeeEmail;
     private Integer employeeAge;
+    private String employeeEmail;
     private double employeeSalary;
     private Long createdAt;
     private Long updatedAt;
