@@ -4,13 +4,13 @@ import com.niv.exception.RoutingError;
 import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeResponse;
 import com.niv.models.entity.Employee;
-import com.niv.models.repository.EmployeeRepo;
-import com.niv.user.NewCommonController;
+import com.niv.models.dao.EmployeeRepo;
+import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import rx.Single;
 
-public enum GetEmployeeController implements NewCommonController {
+public enum GetEmployeeController implements CommonController {
     INSTANCE;
 
     @Override

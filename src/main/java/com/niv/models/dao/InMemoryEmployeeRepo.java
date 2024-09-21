@@ -1,4 +1,4 @@
-package com.niv.models.repository;
+package com.niv.models.dao;
 
 import com.niv.models.entity.Employee;
 

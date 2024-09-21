@@ -1,6 +1,6 @@
 package com.niv.factory;
 
-import com.niv.configure.ConfigHelper;
+import com.niv.configure.ConfigManager;
 import com.niv.models.entity.BaseModel;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
@@ -14,7 +14,7 @@ import io.vertx.core.json.JsonObject;
 public enum MySqlBeanFactory {
     INSTANCE;
     private DataSourceConfig getDataSourceConfig(){
-        JsonObject sqlConfig= ConfigHelper.INSTANCE.getMySqlConfig();
+        JsonObject sqlConfig= ConfigManager.INSTANCE.getMySqlConfig();
         System.out.println("sql" +sqlConfig);
         DataSourceConfig config = new DataSourceConfig();
         config.setUrl(sqlConfig.getString("url"));

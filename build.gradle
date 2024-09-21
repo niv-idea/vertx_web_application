@@ -13,6 +13,8 @@ repositories {
 def mainVerticleName = 'com.niv.MainVerticle'
 
 dependencies {
+    // compile 'io.ebean:ebean:14.1.0'
+    //implementation "ch.qos.logback:logback-classic:1.2.3"
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation("io.vertx:vertx-web:4.4.2")
@@ -24,9 +26,15 @@ dependencies {
     implementation("io.ebean:ebean:14.1.0")
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.9.9")
-    // compile 'io.ebean:ebean:14.1.0'
-    //implementation "ch.qos.logback:logback-classic:1.2.3"
 
+
+    implementation 'io.vertx:vertx-auth-jwt:4.4.2'
+    // Optional validator for token/user input validation
+    implementation 'org.hibernate.validator:hibernate-validator:7.0.0.Final'
+
+    // JWT library for token generation and verification
+    implementation 'com.auth0:java-jwt:4.4.0'
+    implementation 'io.ebean:ebean-querybean:13.6.1'
     // query bean generation
     annotationProcessor 'io.ebean:querybean-generator:14.1.0'
     implementation("io.vertx:vertx-rx-java:4.4.2")

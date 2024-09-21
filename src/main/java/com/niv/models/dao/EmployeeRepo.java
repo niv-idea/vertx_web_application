@@ -1,4 +1,4 @@
-package com.niv.models.repository;
+package com.niv.models.dao;
 
 import com.niv.models.entity.Employee;
 import io.ebean.ExpressionList;
@@ -21,5 +21,6 @@ public enum EmployeeRepo {
     public ExpressionList<Employee> findAllEmployee() {
         return employeeFinder.query().where();
     }
+
 
 }

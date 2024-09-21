@@ -1,9 +1,8 @@
 package com.niv.controller.employeeController;
 
-import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.entity.Employee;
-import com.niv.models.repository.EmployeeRepo;
-import com.niv.user.NewCommonController;
+import com.niv.models.dao.EmployeeRepo;
+import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.RxHelper;
@@ -12,7 +11,7 @@ import rx.Single;
 
 import java.util.Optional;
 
-public enum DeleteEmployeeController implements NewCommonController {
+public enum DeleteEmployeeController implements CommonController {
     INSTANCE;
     @Override
     public void handle(RoutingContext context) {

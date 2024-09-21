@@ -12,7 +12,11 @@ public class MainVerticle extends AbstractVerticle {
     public static final int PORT = 8080;
     @Override
     public void start() throws Exception {
-
+/*
+This line sets the main configuration in the singleton instance of the ConfigManager class.
+It fetches the configuration using a method config(), and then sets it via the setMainConfig() method.
+ The configuration becomes accessible globally via ConfigManager.INSTANCE.
+ */
         ConfigManager.INSTANCE.setMainConfig(config());
 
         vertx.deployVerticle(RxHttpRouter.class.getName(),

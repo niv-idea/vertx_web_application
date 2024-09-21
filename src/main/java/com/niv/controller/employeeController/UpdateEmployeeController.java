@@ -1,12 +1,10 @@
 package com.niv.controller.employeeController;
 
 import com.niv.factory.MySqlBeanFactory;
-import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeRequest;
-import com.niv.models.dto.EmployeeResponse;
 import com.niv.models.entity.Employee;
-import com.niv.models.repository.EmployeeRepo;
-import com.niv.user.NewCommonController;
+import com.niv.models.dao.EmployeeRepo;
+import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.RxHelper;
@@ -15,7 +13,7 @@ import rx.Single;
 
 import java.util.Optional;
 
-public enum UpdateEmployeeController implements NewCommonController {
+public enum UpdateEmployeeController implements CommonController {
     INSTANCE;
     @Override
     public void handle(RoutingContext context) {
@@ -49,11 +47,12 @@ public enum UpdateEmployeeController implements NewCommonController {
             Optional<Employee> employee = Optional.ofNullable(EmployeeRepo.INSTANCE.findById(id));
 
             if (employee.isPresent()) {
-                // Parse the request body for updated details
+                // Parse the request body for updated details from client on his demand
                 EmployeeRequest request = context.getBodyAsJson().mapTo(EmployeeRequest.class);
 
                 // Update employee details
-                updateEmployeeById(request, employee.get());
+                //updateEmployeeById(request, employee.get());
+                updateEmployee(request,id);
 
                 // Create success response
                 JsonObject jsonResponse = new JsonObject()
@@ -77,17 +76,38 @@ public enum UpdateEmployeeController implements NewCommonController {
         }
     }
 
-    public void updateEmployeeById(EmployeeRequest request, Employee employee) {
-        // Update the employee object with new values
-
-        employee.setEmployeeName(request.getEmployeeName());
-        employee.setEmployeeEmail(request.getEmployeeEmail());
+//    public void updateEmployeeById(EmployeeRequest request, Employee employee) {
+//        // Update the employee object with new values
+//
+//        employee.setEmployeeName(request.getEmployeeName());
+//        employee.setEmployeeEmail(request.getEmployeeEmail());
+//        employee.setEmployeeSalary(request.getEmployeeSalary());
+////        employee.setEmployeeAge(request.getEmployeeAge());
+//        employee.setGender(request.getGender());
+//
+//        // Save the updated employee details to the database
+//        MySqlBeanFactory.INSTANCE.save(employee);
+//    }
+    private static void updateEmployee(EmployeeRequest request, Integer id){
+       Employee employee =EmployeeRepo.INSTANCE.findById(id);
+       if(request.getEmployeeName()!=null)
+        {
+            employee.setEmployeeName(request.getEmployeeName());
+        }
+        if(request.getEmployeeEmail()!=null){
+            employee.setEmployeeEmail(request.getEmployeeEmail());
+        }
         employee.setEmployeeSalary(request.getEmployeeSalary());
+
+        employee.setEmployeeAge(request.getEmployeeAge());
 //        employee.setEmployeeAge(request.getEmployeeAge());
-        employee.setGender(request.getGender());
+        if(request.getGender()!=null){
+            employee.setGender(request.getGender());
+        }
 
         // Save the updated employee details to the database
         MySqlBeanFactory.INSTANCE.save(employee);
+
     }
 
 

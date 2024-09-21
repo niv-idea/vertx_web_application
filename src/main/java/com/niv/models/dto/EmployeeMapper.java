@@ -2,6 +2,7 @@ package com.niv.models.dto;
 
 import com.niv.exception.RoutingError;
 import com.niv.factory.MySqlBeanFactory;
+import com.niv.models.dao.EmployeeRepo;
 import com.niv.models.entity.Employee;
 
 import java.util.Optional;
@@ -49,6 +50,15 @@ public enum EmployeeMapper {
         MySqlBeanFactory.INSTANCE.save(employee);
 
         return employee;
+    }
+    public static EmployeeRequest entToReque(Employee employee){
+        EmployeeRequest request=new EmployeeRequest();
+        request.setEmployeeName(employee.getEmployeeName());
+        request.setEmployeeEmail(employee.getEmployeeEmail());
+        request.setEmployeeAge(employee.getEmployeeAge());
+        request.setEmployeeSalary(employee.getEmployeeSalary());
+        request.setGender(employee.getGender());
+        return request;
     }
 
 }

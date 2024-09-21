@@ -1,6 +1,7 @@
-package com.niv.models.repository;
+package com.niv.models.dao;
 
 import com.niv.factory.MySqlBeanFactory;
+import com.niv.models.entity.Employee;
 import io.ebean.Database;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class SqlFinder<T,I> {
     private Class<T> tClass;
+    //create constructor here
     public SqlFinder(Class<T> tClass) {
         this.tClass = tClass;
     }
@@ -20,8 +22,9 @@ public class SqlFinder<T,I> {
     public T findById(I id) {
         return database().find(tClass, id);
     }
-    public void deleteById(T entity){
+    public Employee deleteById(T entity){
         database().delete(entity);
+        return new Employee();
     }
 
     public Query<T> query() {

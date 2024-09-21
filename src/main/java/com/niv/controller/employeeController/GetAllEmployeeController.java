@@ -3,8 +3,8 @@ package com.niv.controller.employeeController;
 import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeResponse;
 import com.niv.models.entity.Employee;
-import com.niv.models.repository.EmployeeRepo;
-import com.niv.user.NewCommonController;
+import com.niv.models.dao.EmployeeRepo;
+import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
 import io.vertx.rxjava.core.RxHelper;
 import io.vertx.rxjava.ext.web.RoutingContext;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum GetAllEmployeeController implements NewCommonController {
+public enum GetAllEmployeeController implements CommonController {
     INSTANCE;
 
 

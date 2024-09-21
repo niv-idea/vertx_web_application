@@ -43,6 +43,7 @@ public enum AddEmployeeController {
         try{
             JsonObject requestBody =  context.getBodyAsJson();
             EmployeeRequest request = requestBody.mapTo(EmployeeRequest.class);
+
             EmployeeMapper.createEmployeeAndSave(request);
 
             ResponseUtils.writeJsonResponse(context);
