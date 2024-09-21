@@ -10,7 +10,7 @@ public class RoutingError extends RuntimeException{
     public RoutingError(String message){
         super(message);
     }
-//if you want to pass the statuscode then use this constructor
+//if you want to pass the status code then use this constructor
     public RoutingError(String message, Integer statusCode) {
         super(message);
         this.statusCode = statusCode;

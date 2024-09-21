@@ -1,5 +1,7 @@
 package com.niv.controller.employeeController;
 
+import com.niv.admin.authent.AccessMiddleware;
+import com.niv.admin.user.request.UserLoginRequest;
 import com.niv.exception.RoutingError;
 import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeResponse;
@@ -16,8 +18,7 @@ public enum GetEmployeeController implements CommonController {
 
     @Override
     public void handle(RoutingContext context) {
-        Single.just(context)
-                .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
+        AccessMiddleware.INSTANCE.authenticateRequest(context)
                 .map(this::getEmployeeById)
                 .subscribe(
                         success -> ResponseUtils.writeJsonResponse(context, success),
@@ -26,9 +27,9 @@ public enum GetEmployeeController implements CommonController {
     }
 
     // Updated method to just return EmployeeResponse and avoid side effects inside it
-    public EmployeeResponse getEmployeeById(RoutingContext context) {
+    public EmployeeResponse getEmployeeById( UserLoginRequest request) {
         try {
-            Integer id = Integer.valueOf(context.pathParam("employeeId"));
+            Integer id = Integer.valueOf(request.getContext().pathParam("employeeId"));
             Employee employee = EmployeeRepo.INSTANCE.findById(id);
 
             // If the employee is not found, return null

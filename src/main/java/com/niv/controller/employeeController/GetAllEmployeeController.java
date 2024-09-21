@@ -1,5 +1,7 @@
 package com.niv.controller.employeeController;
 
+import com.niv.admin.authent.AccessMiddleware;
+import com.niv.admin.user.request.UserLoginRequest;
 import com.niv.exception.RoutingError;
 import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeResponse;
@@ -23,8 +25,7 @@ public enum GetAllEmployeeController implements CommonController {
     public void handle(RoutingContext context) {
        //here we are doing reactive programming
 
-            Single.just(context)
-                    .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
+        AccessMiddleware.INSTANCE.authenticateRequest(context)
                     .map(this::getAllEmployees)
                     .subscribe(
                             success -> ResponseUtils.writeJsonResponse(context, success),
@@ -32,7 +33,7 @@ public enum GetAllEmployeeController implements CommonController {
                     );
 
     }
-    private Response  getAllEmployees(RoutingContext context){
+    private Response  getAllEmployees(UserLoginRequest request){
         try{  //iam going to write here the normal programming
             Response response=new Response();
             List<Employee> employees = EmployeeRepo.INSTANCE.findAll();

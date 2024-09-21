@@ -56,7 +56,6 @@ public enum FetchAllUsersController implements CommonController {
         private String middleName;
         private String email;
         private String mobileNo;
-        private String password;
         UserData(User user) {
             this.id = user.getId();
             this.email = user.getEmail();;

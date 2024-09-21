@@ -1,11 +1,14 @@
 package com.niv.controller.employeeController;
 
+import com.niv.admin.authent.AccessMiddleware;
+import com.niv.admin.user.request.UserLoginRequest;
 import com.niv.exception.RoutingError;
 import com.niv.factory.MySqlBeanFactory;
 import com.niv.models.dto.EmployeeRequest;
 import com.niv.models.dto.SuccessResponse;
 import com.niv.models.entity.Employee;
 import com.niv.models.dao.EmployeeRepo;
+import com.niv.models.entity.User;
 import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
 import io.vertx.core.json.JsonObject;
@@ -20,8 +23,8 @@ public enum UpdateEmployeeController implements CommonController {
     @Override
     public void handle(RoutingContext context) {
         // If there's an exception, propagate it
-        Single.just(context)
-                .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
+
+        AccessMiddleware.INSTANCE.authenticateRequest(context)
                 .map(this::updateEmployee)
                 .subscribe(
                         success -> ResponseUtils.writeJsonResponse(context, success),
@@ -29,12 +32,12 @@ public enum UpdateEmployeeController implements CommonController {
                 );
     }
 
-    private SuccessResponse updateEmployee(RoutingContext context) {
+    private SuccessResponse updateEmployee(UserLoginRequest request) {
         try {
             // Retrieve employee ID from the path parameter
-            String empId = context.request().getParam("empId");
+            String empId = request.getContext().request().getParam("empId");
             Integer id = Integer.valueOf(empId);
-            EmployeeRequest employeeRequest = context.getBodyAsJson().mapTo(EmployeeRequest.class);
+            EmployeeRequest employeeRequest = request.getContext().getBodyAsJson().mapTo(EmployeeRequest.class);
             Employee employeeFromDb = EmployeeRepo.INSTANCE.finder().eq("id", id).setMaxRows(1)
                     .findOneOrEmpty().orElseThrow(() -> new RoutingError("Invalid Id, Employee not found"));
             updateEmployee(employeeRequest, employeeFromDb);
