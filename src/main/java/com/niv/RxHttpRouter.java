@@ -3,6 +3,7 @@ package com.niv;
 import com.niv.configure.ConfigManager;
 import com.niv.v2.employee.MountEmployeeRouter;
 
+import com.niv.admin.user.controller.MountUserRouter;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.rxjava.core.AbstractVerticle;
@@ -37,6 +38,8 @@ public class RxHttpRouter extends AbstractVerticle {
     }
 
     private void createRouter(Router router){
+        router.mountSubRouter("/users", MountUserRouter.INSTANCE.router(vertx));
         router.mountSubRouter("/employee", MountEmployeeRouter.INSTANCE.router(vertx));
+        router.mountSubRouter("/user", MountUserRouter.INSTANCE.router(vertx));
     }
 }

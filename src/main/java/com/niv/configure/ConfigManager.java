@@ -17,4 +17,7 @@ public enum ConfigManager {
     public JsonObject getMySqlConfig(){
         return this.mainConfig.getJsonObject("sql");
     }
+    public JsonObject getAuthConfig(){
+        return this.mainConfig.getJsonObject("auth");
+    }
 }

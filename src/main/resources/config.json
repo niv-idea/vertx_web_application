@@ -6,7 +6,12 @@
     "username": "root",
     "url": "jdbc:mysql://localhost/vertx_web_application",
     "password": "Dipak@11"
+  },
+  "auth" : {
+    "secret" : "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm"
   }
 }
+
+
 
 

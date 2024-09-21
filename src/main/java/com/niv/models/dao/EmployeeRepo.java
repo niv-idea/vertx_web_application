@@ -3,7 +3,9 @@ package com.niv.models.dao;
 import com.niv.models.entity.Employee;
 import io.ebean.ExpressionList;
 
+import java.awt.font.OpenType;
 import java.util.List;
+import java.util.Optional;
 
 public enum EmployeeRepo {
     INSTANCE;
@@ -21,6 +23,8 @@ public enum EmployeeRepo {
     public ExpressionList<Employee> findAllEmployee() {
         return employeeFinder.query().where();
     }
-
+   public Optional<Employee> findEmployeebyId(Integer id){
+        return employeeFinder.getExpressionList().idEq(id).findOneOrEmpty();
+   }
 
 }

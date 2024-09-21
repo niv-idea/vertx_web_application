@@ -1,29 +1,25 @@
 package com.niv.controller.employeeController;
 
+import com.niv.admin.authent.AccessMiddleware;
+
+import com.niv.admin.user.request.UserLoginRequest;
+import com.niv.exception.RoutingError;
 import com.niv.models.dto.EmployeeRequest;
 import com.niv.models.dto.EmployeeMapper;
-import com.niv.models.entity.Employee;
+import com.niv.models.dto.SuccessResponse;
 import com.niv.utils.ResponseUtils;
 
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.rxjava.core.RxHelper;
 import io.vertx.rxjava.ext.web.RoutingContext;
-import lombok.Data;
-import rx.Single;
-
-import java.util.concurrent.Callable;
 
 public enum AddEmployeeController {
     INSTANCE;
 
     public void handle(RoutingContext context) {
-        Single.just(context)
-                .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
-                .map(routingContext-> {
-                    createEmployee(routingContext);
-                    return routingContext;
-                })
+        AccessMiddleware.INSTANCE.authenticateRequest(context)
+
+                .map(this::createEmployee)
                 .subscribe(
                         response -> {
                             if (!context.response().ended()) {
@@ -39,20 +35,22 @@ public enum AddEmployeeController {
 
 
     }
-    public static void createEmployee(RoutingContext context){
+    public SuccessResponse createEmployee(UserLoginRequest request){
         try{
-            JsonObject requestBody =  context.getBodyAsJson();
-            EmployeeRequest request = requestBody.mapTo(EmployeeRequest.class);
+            JsonObject requestBody =  request.getContext().getBodyAsJson();
+            System.out.println("Employee Request : "+requestBody.encode());
+            EmployeeRequest req = requestBody.mapTo(EmployeeRequest.class);
 
-            EmployeeMapper.createEmployeeAndSave(request);
+            EmployeeMapper.createEmployeeAndSave(req);
 
-            ResponseUtils.writeJsonResponse(context);
+            //ResponseUtils.writeJsonResponse(context);
 
         }catch (Exception e){
             e.printStackTrace();
-            ResponseUtils.handleError(context);
+           // ResponseUtils.handleError(context);
+            throw new RoutingError(e.getMessage());
         }
-
+      return  SuccessResponse.generateSuccessResponse();
     }
 
 
