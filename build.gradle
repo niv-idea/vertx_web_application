@@ -43,6 +43,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
 task run(type: JavaExec) {
     main = 'io.vertx.core.Launcher' // Main class
     classpath = sourceSets.main.runtimeClasspath
@@ -55,3 +56,18 @@ task run(type: JavaExec) {
     ]
 
 }
+
+//task run(type: JavaExec) {
+//    main = 'io.vertx.core.Launcher' // Main class
+//    classpath = sourceSets.main.runtimeClasspath
+//    args = ['run', mainVerticleName,
+//            "-conf /Users/moonlight/workspace/practice/niv/vertx_web_application/src/main/resources/config.json",
+//            "--redeploy=src/**/*",
+//            "--launcher-class=io.vertx.core.Launcher",
+//            "--on-redeploy=./gradlew classes",
+//            "--Xlint:deprecation"
+//    ]
+//
+//}
+
+

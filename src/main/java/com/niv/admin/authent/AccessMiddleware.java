@@ -25,7 +25,8 @@ public enum AccessMiddleware {
     }
     private UserLoginRequest validateRequest(RoutingContext context){
        String token= context.request().getHeader("Authorization");
-        log.info("token {}",token);
+
+        System.out.println("Token : "+token);
         if(token==null){
             throw  new RoutingError("Token is not found in the header",401);
 
@@ -36,7 +37,9 @@ public enum AccessMiddleware {
         String tokenType=token.substring(0,6);
         log.info("token Type{} ",tokenType);
 
-        if(!tokenType.equals("bearer")){
+        System.out.println("Token type :::: "+tokenType);
+
+        if(!tokenType.equals("Bearer")){
             throw new RoutingError("Invalid Token ",401);
         }
         String accessToken = token.substring(7);

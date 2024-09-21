@@ -23,8 +23,11 @@ public enum EmployeeRepo {
     public ExpressionList<Employee> findAllEmployee() {
         return employeeFinder.query().where();
     }
-   public Optional<Employee> findEmployeebyId(Integer id){
+   public Optional<Employee> findEmployeeById(Integer id){
         return employeeFinder.getExpressionList().idEq(id).findOneOrEmpty();
    }
 
+   public ExpressionList<Employee> finder() {
+        return employeeFinder.query().where();
+   }
 }

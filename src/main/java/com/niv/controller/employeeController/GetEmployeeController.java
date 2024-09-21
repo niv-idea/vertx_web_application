@@ -7,6 +7,7 @@ import com.niv.models.entity.Employee;
 import com.niv.models.dao.EmployeeRepo;
 import com.niv.user.CommonController;
 import com.niv.utils.ResponseUtils;
+import io.vertx.rxjava.core.RxHelper;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import rx.Single;
 
@@ -15,22 +16,12 @@ public enum GetEmployeeController implements CommonController {
 
     @Override
     public void handle(RoutingContext context) {
-        // Using Single to handle the asynchronous flow of getting employee by ID
-        Single.fromCallable(() -> getEmployeeById(context))
+        Single.just(context)
+                .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
+                .map(this::getEmployeeById)
                 .subscribe(
-                        response -> {
-                            if (response != null) {
-                                // Send the JSON response if successful
-                                ResponseUtils.INSTANCE.writeJsonResponse(context, response);
-                            } else {
-                                // Handle case when employee not found
-                                ResponseUtils.INSTANCE.handleError(context, "Employee not found");
-                            }
-                        },
-                        error -> {
-                            // Handle any error that occurred during the process
-                            ResponseUtils.INSTANCE.handleError(context, error.getMessage());
-                        }
+                        success -> ResponseUtils.writeJsonResponse(context, success),
+                        error -> ResponseUtils.handleError(context, error)
                 );
     }
 
@@ -50,8 +41,8 @@ public enum GetEmployeeController implements CommonController {
             return response;
 
         } catch (Exception e) {
-            // If there's an exception, propagate it
-            throw new RoutingError(e.getMessage(),402);
+            e.printStackTrace();
+            throw new RoutingError(e.getMessage());
         }
     }
 }

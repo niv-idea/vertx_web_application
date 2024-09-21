@@ -1,5 +1,6 @@
 package com.niv.controller.employeeController;
 
+import com.niv.exception.RoutingError;
 import com.niv.models.dto.EmployeeMapper;
 import com.niv.models.dto.EmployeeResponse;
 import com.niv.models.entity.Employee;
@@ -24,19 +25,14 @@ public enum GetAllEmployeeController implements CommonController {
 
             Single.just(context)
                     .subscribeOn(RxHelper.blockingScheduler(context.vertx()))
-                    .map((routingContext)->{
-                        GetAllEmployeeController.INSTANCE.getAllEmployees(routingContext);
-                        return routingContext;
-                    })
+                    .map(this::getAllEmployees)
                     .subscribe(
-                            response -> {
-                                ResponseUtils.writeJsonResponse(context,response);
-                            },
-                            error -> ResponseUtils.handleError(context,error)
+                            success -> ResponseUtils.writeJsonResponse(context, success),
+                            error -> ResponseUtils.handleError(context, error)
                     );
 
     }
-    public void getAllEmployees(RoutingContext context){
+    private Response  getAllEmployees(RoutingContext context){
         try{  //iam going to write here the normal programming
             Response response=new Response();
             List<Employee> employees = EmployeeRepo.INSTANCE.findAll();
@@ -46,16 +42,16 @@ public enum GetAllEmployeeController implements CommonController {
                     .map(EmployeeMapper.INSTANCE::createEmployeeResponse)
                     .collect(Collectors.toList());
            response.employees=responses;
-            ResponseUtils.writeJsonResponse(context,response);
-
+           return response;
         }catch (Exception e){
             e.printStackTrace();
-            ResponseUtils.handleError(context,e.getMessage());
+            throw new RoutingError(e.getMessage());
         }
     }
     private static class Response{
         public List<EmployeeResponse> employees=new ArrayList<>();
 
     }
+
 }
 

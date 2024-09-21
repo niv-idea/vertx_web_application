@@ -21,16 +21,9 @@ public enum AddEmployeeController {
 
                 .map(this::createEmployee)
                 .subscribe(
-                        response -> {
-                            if (!context.response().ended()) {
-                                ResponseUtils.writeJsonResponse(context);
-                            }
-                        },
-                        error -> {
-                            if (!context.response().ended()) {
-                                ResponseUtils.handleError(context);
-                            }
-                        }
+                        response -> ResponseUtils.writeJsonResponse(context, response),
+
+                        error -> ResponseUtils.handleError(context, error)
                 );
 
 
@@ -43,11 +36,8 @@ public enum AddEmployeeController {
 
             EmployeeMapper.createEmployeeAndSave(req);
 
-            //ResponseUtils.writeJsonResponse(context);
-
         }catch (Exception e){
             e.printStackTrace();
-           // ResponseUtils.handleError(context);
             throw new RoutingError(e.getMessage());
         }
       return  SuccessResponse.generateSuccessResponse();

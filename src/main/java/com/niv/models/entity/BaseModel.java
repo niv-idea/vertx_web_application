@@ -34,9 +34,12 @@ public class BaseModel {
         if(createdAt==null){
             MySqlBeanFactory.INSTANCE.saveBean(this);
         }else {
-
             MySqlBeanFactory.INSTANCE.update(this);
         }
+    }
+
+    public void update() {
+        MySqlBeanFactory.INSTANCE.update(this);
     }
     public void delete(){
         MySqlBeanFactory.INSTANCE.delete(this);

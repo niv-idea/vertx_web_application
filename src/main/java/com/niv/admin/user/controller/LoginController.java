@@ -12,6 +12,7 @@ import com.niv.utils.ResponseUtils;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.RxHelper;
 import io.vertx.rxjava.ext.web.RoutingContext;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rx.Single;
@@ -34,8 +35,8 @@ public enum LoginController implements CommonController {
                 );
     }
 
-    private Response doNext(RoutingContext context) {
-        Response response = new Response();
+    private TokenResponse doNext(RoutingContext context) {
+        TokenResponse response = new TokenResponse();
         try {
             JsonObject bodyAsJson = context.getBodyAsJson();
             LoginRequest loginRequest = bodyAsJson.mapTo(LoginRequest.class);
@@ -47,10 +48,7 @@ public enum LoginController implements CommonController {
                 throw new RoutingError("Invalid Password");
             }
             String token = TokenService.INSTANCE.generateToken(users.getEmail(), users.getId());
-            Map<String, String> data = new HashMap<>();
-            data.put("token", token);
-            response.setMessage("success");
-            response.setData(data);
+            response.setToken(token);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new RoutingError(e.getMessage());
@@ -66,5 +64,10 @@ public enum LoginController implements CommonController {
         @JsonProperty(value = "password")
         private String password;
         public LoginRequest(){}
+    }
+
+    @Data
+    private static class TokenResponse {
+        private String token;
     }
 }

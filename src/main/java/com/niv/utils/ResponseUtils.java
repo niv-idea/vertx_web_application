@@ -23,10 +23,10 @@ public enum ResponseUtils {
                 );
     }
 
-    public static void handleError(RoutingContext context, Object error) {
+    public static void handleError(RoutingContext context, Throwable error) {
         context.response().putHeader("content-type", "application/json")
                 .end(
-                        new JsonObject().put("status", false).put("error", error).encodePrettily()
+                        new JsonObject().put("status", false).put("error", error.getMessage()).encodePrettily()
                 );
     }
 
@@ -39,4 +39,11 @@ public enum ResponseUtils {
                 );
     }
 
+
+    public static void handleError(RoutingContext context, Object error) {
+        context.response().putHeader("content-type", "application/json")
+                .end(
+                        new JsonObject().put("status", false).put("error", error).encodePrettily()
+                );
+    }
 }
